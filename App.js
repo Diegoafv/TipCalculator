@@ -3,7 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    Button,
     TouchableOpacity,
     TextInput,
     KeyboardAvoidingView,
@@ -65,13 +64,6 @@ const App = (props) => {
         if (!enteredText) {
             setTip(0);
             setShowResult(false);
-        }
-    }
-
-    const handleOnPressCalculate = () => {
-        if (bill) {
-            calculate();
-            setShowResult(true);
         }
     }
 
