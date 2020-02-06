@@ -7,6 +7,8 @@ import {
     TextInput,
     KeyboardAvoidingView,
     Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
 
 const CustomButton = (props) => {
@@ -93,53 +95,62 @@ const App = (props) => {
     }
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? 'padding' : null} style={styles.container}>
-            <Text style={[styles.textStyle, styles.textTitle]}>Tip Calculator</Text>
-            <TextInput
-                placeholder="What's the bill?"
-                style={styles.input}
-                clearButtonMode='always'
-                underlineColorAndroid="transparent"
-                keyboardType='numeric'
-                color='#3b5998'
-                onChangeText={handleChangeText}
-                value={bill}
-            />
-            <View style={styles.percentContainer}>
-                <CustomButton text='5%' color='white' width={50} onPress={() => setPercent('5')} />
-                <CustomButton text='10%' color='white' width={50} onPress={() => setPercent('10')} />
-                <CustomButton text='15%' color='white' width={50} onPress={() => setPercent('15')} />
-                <CustomButton text='20%' color='white' width={50} onPress={() => setPercent('20')} />
-            </View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? 'padding' : null}
+                style={styles.container}
+                keyboardShouldPersistTaps='handled'
+            >
 
-            <CustomButton text='Custom' color='white' width={150} onPress={handleOnPressCustomPercent} />
-
-            {showCustomPercent &&
+                <Text style={[styles.textStyle, styles.textTitle]}>Tip Calculator</Text>
                 <TextInput
-                    placeholder="Percentage?"
-                    style={styles.inputCustomPercentage}
+                    placeholder="What's the bill?"
+                    style={styles.input}
                     clearButtonMode='always'
                     underlineColorAndroid="transparent"
                     keyboardType='numeric'
                     color='#3b5998'
-                    onChangeText={handleChangeTextCustomPercent}
-                    value={percent}
+                    onChangeText={handleChangeText}
+                    value={bill}
+
                 />
-            }
-
-            {showResult &&
-                <View style={styles.resultArea}>
-                    <Text style={[styles.textStyle, styles.resultItemTitle]}>Bill</Text>
-                    <Text style={[styles.textStyle, styles.resultItem]}>R$ {parseFloat(bill).toFixed(2)}</Text>
-
-                    <Text style={[styles.textStyle, styles.resultItemTitle]}>Tip</Text>
-                    <Text style={[styles.textStyle, styles.resultItem]}>R$ {tip.toFixed(2)} ({percent}%)</Text>
-
-                    <Text style={[styles.textStyle, styles.resultItemTitle]}>Total</Text>
-                    <Text style={[styles.textStyle, styles.resultItem]}>R$ {(parseFloat(bill) + tip).toFixed(2)}</Text>
+                <View style={styles.percentContainer}>
+                    <CustomButton text='5%' color='white' width={50} onPress={() => setPercent('5')} />
+                    <CustomButton text='10%' color='white' width={50} onPress={() => setPercent('10')} />
+                    <CustomButton text='15%' color='white' width={50} onPress={() => setPercent('15')} />
+                    <CustomButton text='20%' color='white' width={50} onPress={() => setPercent('20')} />
                 </View>
-            }
-        </KeyboardAvoidingView>
+
+                <CustomButton text='Custom' color='white' width={150} onPress={handleOnPressCustomPercent} />
+
+                {showCustomPercent &&
+                    <TextInput
+                        placeholder="Percentage?"
+                        style={styles.inputCustomPercentage}
+                        clearButtonMode='always'
+                        underlineColorAndroid="transparent"
+                        keyboardType='numeric'
+                        color='#3b5998'
+                        onChangeText={handleChangeTextCustomPercent}
+                        value={percent}
+                    />
+                }
+
+                {showResult &&
+                    <View style={styles.resultArea}>
+                        <Text style={[styles.textStyle, styles.resultItemTitle]}>Bill</Text>
+                        <Text style={[styles.textStyle, styles.resultItem]}>R$ {parseFloat(bill).toFixed(2)}</Text>
+
+                        <Text style={[styles.textStyle, styles.resultItemTitle]}>Tip</Text>
+                        <Text style={[styles.textStyle, styles.resultItem]}>R$ {tip.toFixed(2)} ({percent}%)</Text>
+
+                        <Text style={[styles.textStyle, styles.resultItemTitle]}>Total</Text>
+                        <Text style={[styles.textStyle, styles.resultItem]}>R$ {(parseFloat(bill) + tip).toFixed(2)}</Text>
+                    </View>
+                }
+
+            </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 
 }
